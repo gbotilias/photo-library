@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PhotoDto } from '../../../core/models/photo.interface';
 import { FavoritesService } from '../../../core/services/favorites';
 import { PhotoService } from '../../../core/services/photo.service';
@@ -13,6 +14,7 @@ import { PhotoService } from '../../../core/services/photo.service';
 export class PhotosListComponent implements OnInit {
   private photoService = inject(PhotoService);
   private favoritesService = inject(FavoritesService);
+  private snackBar = inject(MatSnackBar);
 
   photos = signal<PhotoDto[]>([]);
   loading = signal(false);
@@ -71,8 +73,16 @@ export class PhotosListComponent implements OnInit {
       },
     });
   }
-
   addToFavorites(photo: PhotoDto) {
-    this.favoritesService.addToFavorites(photo);
+    if (this.favoritesService.isFavorite(photo.id)) {
+      this.snackBar.open('This photo is already in favorites!', 'Close', {
+        duration: 3000,
+      });
+    } else {
+      this.favoritesService.addToFavorites(photo);
+      this.snackBar.open('Photo added to favorites!', 'Close', {
+        duration: 3000,
+      });
+    }
   }
 }
