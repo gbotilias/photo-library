@@ -12,7 +12,9 @@ import { FavoritesService } from '../../../core/services/favorites.service';
 })
 export class FavoritesListComponent {
   private router = inject(Router);
-  favoritesService = inject(FavoritesService);
+  private favoritesService = inject(FavoritesService);
+
+  favorites = this.favoritesService.favorites;
 
   onPhotoClick(photoId: string) {
     this.router.navigate(['/photos', photoId]);

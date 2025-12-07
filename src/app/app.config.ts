@@ -11,6 +11,8 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
+    // Register environment config for DI
+    // Angular auto-switches between dev/prod based on build mode
     {
       provide: ENVIRONMENT,
       useValue: environment,

@@ -9,6 +9,7 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { PhotoDto } from '../../../core/models/photo.interface';
 import { FavoritesService } from '../../../core/services/favorites.service';
 import { PhotoService } from '../../../core/services/photo.service';
@@ -24,7 +25,7 @@ export class PhotosListComponent implements OnInit, OnDestroy {
   private photoService = inject(PhotoService);
   private favoritesService = inject(FavoritesService);
   private snackBar = inject(MatSnackBar);
-  private scrollListener?: () => void;
+  private destroy$ = new Subject<void>();
 
   photos = signal<PhotoDto[]>([]);
   loading = signal(false);
@@ -39,44 +40,28 @@ export class PhotosListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.scrollListener) {
-      const scrollContainer = document.querySelector('.app-content');
-      scrollContainer?.removeEventListener('scroll', this.scrollListener as any);
-    }
-  }
-
-  private setupScrollListener() {
-    const scrollContainer = document.querySelector('.app-content');
-    if (!scrollContainer) return;
-
-    this.scrollListener = () => {
-      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
-      const threshold = 100;
-
-      if (scrollTop + clientHeight >= scrollHeight - threshold && !this.loading()) {
-        this.loadPhotos();
-      }
-    };
-
-    scrollContainer.addEventListener('scroll', this.scrollListener);
+    // Clean up subscriptions
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   loadPhotos() {
-    if (this.loading()) return;
-
     this.loading.set(true);
     this.error.set(null);
 
+    // Calculate next page number
     const nextPage = this.currentPage() + 1;
     this.currentPage.set(nextPage);
 
     this.photoService.getPhotos(nextPage, 20).subscribe({
-      next: (photos) => {
-        const current = this.photos();
-        this.photos.set([...current, ...photos]);
+      // Success callback
+      next: (newPhotos) => {
+        const currentPhotos = this.photos();
+        this.photos.set([...currentPhotos, ...newPhotos]);
         this.loading.set(false);
       },
-      error: (err) => {
+      // Error callback
+      error: (_err) => {
         this.error.set('Failed to load photos. Please try again.');
         this.loading.set(false);
         this.currentPage.set(nextPage - 1);
@@ -95,5 +80,23 @@ export class PhotosListComponent implements OnInit, OnDestroy {
         duration: 3000,
       });
     }
+  }
+
+  private setupScrollListener() {
+    const scrollContainer = document.querySelector('.app-content');
+    if (!scrollContainer) return;
+
+    fromEvent(scrollContainer, 'scroll')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (this.isNearBottom(scrollContainer)) {
+          this.loadPhotos();
+        }
+      });
+  }
+
+  private isNearBottom(container: Element): boolean {
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    return scrollTop + clientHeight >= scrollHeight;
   }
 }

@@ -5,4 +5,5 @@ export interface AppEnvironment {
   apiUrl: string;
 }
 
+//Unique DI token for environment configuration
 export const ENVIRONMENT = new InjectionToken<AppEnvironment>('app.environment');

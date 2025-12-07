@@ -1,11 +1,11 @@
 <div class="favorites-container">
-  @if (favoritesService.favorites().length === 0) {
+  @if (favorites().length === 0) {
   <div class="empty-state">
     <p>No favorites yet. Click on photos to add them!</p>
   </div>
   } @else {
   <div class="favorites-grid">
-    @for (photo of favoritesService.favorites(); track photo.id) {
+    @for (photo of favorites(); track photo.id) {
     <mat-card class="photo-card" (click)="onPhotoClick(photo.id)">
       <img mat-card-image [src]="photo.thumbnailUrl" [alt]="photo.id" />
     </mat-card>
