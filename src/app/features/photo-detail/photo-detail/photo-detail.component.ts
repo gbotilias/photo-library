@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PhotoDto } from '../../../core/models/photo.interface';
-import { FavoritesService } from '../../../core/services/favorites';
+import { FavoritesService } from '../../../core/services/favorites.service';
 
 @Component({
   selector: 'app-photo-detail',

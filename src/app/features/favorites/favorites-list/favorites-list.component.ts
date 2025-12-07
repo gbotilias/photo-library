@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
-import { FavoritesService } from '../../../core/services/favorites';
+import { FavoritesService } from '../../../core/services/favorites.service';
 
 @Component({
   selector: 'app-favorites-list',

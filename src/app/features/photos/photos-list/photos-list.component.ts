@@ -10,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PhotoDto } from '../../../core/models/photo.interface';
-import { FavoritesService } from '../../../core/services/favorites';
+import { FavoritesService } from '../../../core/services/favorites.service';
 import { PhotoService } from '../../../core/services/photo.service';
 
 @Component({
