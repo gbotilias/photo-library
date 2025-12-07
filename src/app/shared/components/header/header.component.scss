@@ -1,33 +1,20 @@
+@use '@angular/material' as mat;
+
 .header {
-  background: white;
-  border-bottom: 1px solid #ddd;
-  padding: 20px;
+  background: #e1f5fe;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
 
   &_nav {
     display: flex;
     justify-content: center;
-    gap: 120px;
+    gap: 24px;
   }
 
   &_button {
-    padding: 12px 24px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    background: #f5f5f5;
-    color: #333;
-    border-radius: 4px;
-    cursor: pointer;
-
-    &:hover {
-      background: #e8e8e8;
-      border-color: #999;
-    }
-
     &.active {
-      background: #4caf50;
-      color: white;
-      border-color: #4caf50;
-      font-weight: 600;
+      background-color: #039be5 !important;
+      color: white !important;
     }
   }
 }

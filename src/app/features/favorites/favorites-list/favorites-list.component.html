@@ -6,9 +6,9 @@
   } @else {
   <div class="favorites-grid">
     @for (photo of favoritesService.favorites(); track photo.id) {
-    <div class="photo-card" (click)="onPhotoClick(photo.id)">
-      <img [src]="photo.thumbnailUrl" [alt]="photo.id" />
-    </div>
+    <mat-card class="photo-card" (click)="onPhotoClick(photo.id)">
+      <img mat-card-image [src]="photo.thumbnailUrl" [alt]="photo.id" />
+    </mat-card>
     }
   </div>
   }

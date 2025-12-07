@@ -2,7 +2,10 @@
   @if (photo()) {
   <div class="photo-detail">
     <img [src]="photo()!.url" [alt]="photo()!.id" class="detail-image" />
-    <button (click)="removeFromFavorites()" class="btn-remove">Remove from favorites</button>
+    <button mat-raised-button (click)="removeFromFavorites()" class="btn-remove">
+      <mat-icon>delete</mat-icon>
+      Remove from favorites
+    </button>
   </div>
   }
 </div>

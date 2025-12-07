@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PhotoDto } from '../../../core/models/photo.interface';
 import { FavoritesService } from '../../../core/services/favorites';
@@ -7,7 +9,7 @@ import { PhotoService } from '../../../core/services/photo.service';
 @Component({
   selector: 'app-photos-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [MatCardModule, MatProgressSpinnerModule],
   templateUrl: './photos-list.component.html',
   styleUrl: './photos-list.component.scss',
 })

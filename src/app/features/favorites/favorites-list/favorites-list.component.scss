@@ -1,26 +1,10 @@
 .favorites-container {
-  padding: 32px;
-}
-
-.favorites-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
-  margin-bottom: 32px;
-}
-
-.photo-card {
-  cursor: pointer;
-
-  img {
-    width: 100%;
-    height: 250px;
-  }
+  padding: 24px;
 }
 
 .empty-state {
   text-align: center;
-  padding: 32px;
-  color: #666;
-  font-size: 1rem;
+  padding: 48px;
+  color: #039be5;
+  font-size: 1.1rem;
 }
