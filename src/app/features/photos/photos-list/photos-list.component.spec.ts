@@ -1,18 +1,25 @@
+import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ENVIRONMENT } from '../../../core/config/environment.config';
+import { PhotosListComponent } from './photos-list.component';
 
-import { PhotosList } from './photos-list';
-
-describe('PhotosList', () => {
-  let component: PhotosList;
-  let fixture: ComponentFixture<PhotosList>;
+describe('PhotosListComponent', () => {
+  let component: PhotosListComponent;
+  let fixture: ComponentFixture<PhotosListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PhotosList]
-    })
-    .compileComponents();
+      imports: [PhotosListComponent],
+      providers: [
+        provideHttpClient(),
+        {
+          provide: ENVIRONMENT,
+          useValue: { production: false, apiUrl: 'https://picsum.photos/v2/list' },
+        },
+      ],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(PhotosList);
+    fixture = TestBed.createComponent(PhotosListComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

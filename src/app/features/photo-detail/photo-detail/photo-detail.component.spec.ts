@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { PhotoDetailComponent } from './photo-detail.component';
 
-import { PhotoDetail } from './photo-detail';
-
-describe('PhotoDetail', () => {
-  let component: PhotoDetail;
-  let fixture: ComponentFixture<PhotoDetail>;
+describe('PhotoDetailComponent', () => {
+  let component: PhotoDetailComponent;
+  let fixture: ComponentFixture<PhotoDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PhotoDetail]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(PhotoDetail);
+      imports: [PhotoDetailComponent],
+      providers: [provideRouter([])],
+    }).compileComponents();
+    fixture = TestBed.createComponent(PhotoDetailComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
