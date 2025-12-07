@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,10 +20,11 @@ import { PhotoService } from '../../../core/services/photo.service';
   templateUrl: './photos-list.component.html',
   styleUrl: './photos-list.component.scss',
 })
-export class PhotosListComponent implements OnInit {
+export class PhotosListComponent implements OnInit, OnDestroy {
   private photoService = inject(PhotoService);
   private favoritesService = inject(FavoritesService);
   private snackBar = inject(MatSnackBar);
+  private scrollListener?: () => void;
 
   photos = signal<PhotoDto[]>([]);
   loading = signal(false);
@@ -24,33 +32,33 @@ export class PhotosListComponent implements OnInit {
   currentPage = signal(0);
 
   ngOnInit() {
-    this.loadPhotos();
+    if (this.photos().length === 0) {
+      this.loadPhotos();
+    }
     this.setupScrollListener();
+  }
+
+  ngOnDestroy() {
+    if (this.scrollListener) {
+      const scrollContainer = document.querySelector('.app-content');
+      scrollContainer?.removeEventListener('scroll', this.scrollListener as any);
+    }
   }
 
   private setupScrollListener() {
     const scrollContainer = document.querySelector('.app-content');
     if (!scrollContainer) return;
 
-    scrollContainer.addEventListener('scroll', () => {
+    this.scrollListener = () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
       const threshold = 100;
 
       if (scrollTop + clientHeight >= scrollHeight - threshold && !this.loading()) {
         this.loadPhotos();
       }
-    });
-  }
+    };
 
-  onScroll() {
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const pageHeight = document.documentElement.scrollHeight;
-    const threshold = 100; // Load when 100px from bottom
-
-    // If near bottom and not loading, load more
-    if (scrollPosition >= pageHeight - threshold && !this.loading()) {
-      this.loadPhotos();
-    }
+    scrollContainer.addEventListener('scroll', this.scrollListener);
   }
 
   loadPhotos() {
@@ -75,6 +83,7 @@ export class PhotosListComponent implements OnInit {
       },
     });
   }
+
   addToFavorites(photo: PhotoDto) {
     if (this.favoritesService.isFavorite(photo.id)) {
       this.snackBar.open('This photo is already in favorites!', 'Close', {
