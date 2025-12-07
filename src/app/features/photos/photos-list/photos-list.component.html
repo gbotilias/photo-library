@@ -1,0 +1,17 @@
+<div class="photos-container">
+  @if (error()) {
+  <div class="error-message">{{ error() }}</div>
+  } @if (photos().length > 0) {
+  <div class="photos-grid">
+    @for (photo of photos(); track photo.id) {
+    <div class="photo-card" (click)="addToFavorites(photo)">
+      <img [src]="photo.thumbnailUrl" [alt]="photo.id" />
+    </div>
+    }
+  </div>
+  } @if (loading()) {
+  <div class="loading">
+    <div class="loader-circle">Loading...</div>
+  </div>
+  }
+</div>

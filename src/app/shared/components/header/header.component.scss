@@ -1,0 +1,33 @@
+.header {
+  background: white;
+  border-bottom: 1px solid #ddd;
+  padding: 20px;
+
+  &_nav {
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+  }
+
+  &_button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    background: #f5f5f5;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background: #e8e8e8;
+      border-color: #999;
+    }
+
+    &.active {
+      background: #4caf50;
+      color: white;
+      border-color: #4caf50;
+      font-weight: 600;
+    }
+  }
+}

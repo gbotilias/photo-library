@@ -1,0 +1,15 @@
+<div class="favorites-container">
+  @if (favoritesService.favorites().length === 0) {
+  <div class="empty-state">
+    <p>No favorites yet. Click on photos to add them!</p>
+  </div>
+  } @else {
+  <div class="favorites-grid">
+    @for (photo of favoritesService.favorites(); track photo.id) {
+    <div class="photo-card" (click)="onPhotoClick(photo.id)">
+      <img [src]="photo.thumbnailUrl" [alt]="photo.id" />
+    </div>
+    }
+  </div>
+  }
+</div>
